@@ -1,4 +1,4 @@
-package project.learn.rluzinov;
+package project.learn.rluzinov.models;
 
 public class BookModel {
     private int id;
