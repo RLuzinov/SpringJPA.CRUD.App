@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Index</title>
 </head>
 <body align="center">
  <header>Страница с книгами</header>
 <div th:each="book:${book}">
-    <a th:href="@{book/{id}(id=${book.getId()}}"
-       th:text="${book.getName}">VALUE</a>
+    <a th:href="@{book/{id}(id=${book.getId()})}"
+       th:text="${book.getName()}">VALUE</a>
 </div>
 <a href="book/new">Добавить новую книгу</a>
 
