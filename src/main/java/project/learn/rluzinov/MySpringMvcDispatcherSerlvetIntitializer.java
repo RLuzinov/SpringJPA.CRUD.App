@@ -1,4 +1,4 @@
-package config;
+package project.learn.rluzinov;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
