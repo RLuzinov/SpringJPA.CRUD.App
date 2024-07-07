@@ -1,5 +1,6 @@
 package config;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import javax.sql.DataSource;
 
 public class SpringConfig implements WebMvcConfigurer {
+
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -65,5 +67,6 @@ public class SpringConfig implements WebMvcConfigurer {
         return new JdbcTemplate(dataSource());
     }
 }
+
 
 
