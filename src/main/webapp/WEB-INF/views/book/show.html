@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <title>Show</title>
 </head>
+<header th:text="'Описание книги: ' +  ${book.getName()}"><h3> VALUE </h3></header>
 <body align="center">
-
-<p th:text="${book.getAuthor()}"> VALUE </p>
-<p th:text="${book.getName()}">VALUE</p>
-<p th:text="${book.getAge()}">VALUE </p>
-<p th:text="${book.getId()}">VALUE</p>
-
+<hr/>
+<p th:text="'Автор: ' + ${book.getAuthor()}"> VALUE </p>
+<p th:text="'Наименование книги: ' + ${book.getName()}">VALUE</p>
+<p th:text="'Год выпуска книги: ' + ${book.getAge()}">VALUE </p>
+<p th:text="'Номер книги в каталоге: ' + ${book.getId()}">VALUE</p>
+<hr/>
 <a th:href="@{book/{id}/edit(id= ${book.getId()})}">Изменить книгу</a>
 </body>
 <form th:method="DELETE" th:action="@{book/{id}/edit(id= ${book.getId()})}">
+    <br/>
     <input type="submit" value="Удалить"/>
 </form>
 

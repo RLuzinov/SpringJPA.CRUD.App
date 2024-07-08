@@ -5,11 +5,13 @@
     <title>Index</title>
 </head>
 <body align="center">
- <header>Страница с книгами</header>
+ <header><h3>Страница с книгами</h3></header>
+ <hr/>
 <div th:each="book:${book}">
     <a th:href="@{book/{id}(id=${book.getId()})}"
        th:text="${book.getName()}">VALUE</a>
 </div>
+ <hr/>
 <a href="book/new">Добавить новую книгу</a>
 
 </body>
