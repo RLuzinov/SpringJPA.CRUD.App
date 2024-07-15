@@ -1,9 +1,20 @@
 package project.learn.rluzinov.models;
 
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class Book {
     private int id;
+
+    @Min(value = 1500, message = "Старше книг не бывает")
     private int age;
+    @NotEmpty(message = "Ошибка названия книги")
+    @Size(min = 3, max = 100, message = "Навзание книги не должно быть меньше 3 и больше 100 символов")
     private String name;
+    @NotEmpty(message = "Ошибка имени автора")
+    @Size(min = 3,max = 100,message = "Имя автора не должно быть меньше 3 и больше 100 символов")
     private String author;
 
     public Book() {
