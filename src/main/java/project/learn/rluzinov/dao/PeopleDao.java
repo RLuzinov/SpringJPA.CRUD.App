@@ -3,9 +3,11 @@ package project.learn.rluzinov.dao;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import project.learn.rluzinov.models.Book;
 import project.learn.rluzinov.models.People;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -32,5 +34,10 @@ public class PeopleDao {
     }
     public  void delete(int id){
         jdbcTemplate.update("DELETE FROM People WHERE id=?", id);
+    }
+
+    public List<Book> getBookByPeople(int id)
+        {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
     }
 }

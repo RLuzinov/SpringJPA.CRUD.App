@@ -10,10 +10,10 @@ public class Book {
 
     @Min(value = 1500, message = "Старше книг не бывает")
     private int age;
-    @NotEmpty(message = "Ошибка названия книги")
+    @NotEmpty(message = "Навзвание не должно быть пустым")
     @Size(min = 3, max = 100, message = "Навзание книги не должно быть меньше 3 и больше 100 символов")
     private String name;
-    @NotEmpty(message = "Ошибка имени автора")
+    @NotEmpty(message = "Имя автора не должно быть пустым")
     @Size(min = 3,max = 100,message = "Имя автора не должно быть меньше 3 и больше 100 символов")
     private String author;
 

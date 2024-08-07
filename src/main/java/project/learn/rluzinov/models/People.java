@@ -10,7 +10,7 @@ import project.learn.rluzinov.dao.BookDao;
 public class People {
 
     private int id;
-    @NotEmpty(message = "Ощибка имени")
+    @NotEmpty(message = "Имя не должно быть путсым")
     @Size(min = 3, max = 100, message = "Имя должно состовлять от 3 до 100 символов")
     private String name;
     @Min(value = 16, message = "Возраст посещения библиотеки - не менее 16 лет")

@@ -4,8 +4,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import project.learn.rluzinov.models.Book;
+import project.learn.rluzinov.models.People;
 
 import java.util.List;
+import java.util.Optional;
+
 @Component
 
 public class BookDao {
@@ -33,5 +36,16 @@ public class BookDao {
     }
     public void delete(int id){
         jdbcTemplate.update("DELETE FROM Book WHERE id =?", id);
+    }
+
+    public Optional<People> getBookOwner(int id){
+        return jdbcTemplate.query("SELECT People.* FROM Book JOIN People ON Book.people_id = People.id" +
+                        " WHERE Book.id =? ", new Object[]{id}, new BeanPropertyRowMapper<>(People.class)).stream().findAny();
+    }
+    public  void realise(int id){
+        jdbcTemplate.update("UPDATE Book SET people_id = NULL WHERE id = ?", id);
+    }
+    public void assign (int id, People selectedPeople){
+        jdbcTemplate.update("UPDATE Book SET people_id=? WHERE id=?", selectedPeople.getId(), id);
     }
 }
