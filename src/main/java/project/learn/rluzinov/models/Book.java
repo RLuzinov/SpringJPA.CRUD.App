@@ -1,61 +1,33 @@
 package project.learn.rluzinov.models;
 
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Entity
+@Table(name = "Book")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
+    @Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
-
+    @Column(name = "age", nullable = false)
     @Min(value = 1500, message = "Старше книг не бывает")
     private int age;
+    @Column(name = "name", nullable = false)
     @NotEmpty(message = "Навзвание не должно быть пустым")
     @Size(min = 3, max = 100, message = "Навзание книги не должно быть меньше 3 и больше 100 символов")
     private String name;
+    @Column(name = "author", nullable = false)
     @NotEmpty(message = "Имя автора не должно быть пустым")
     @Size(min = 3,max = 100,message = "Имя автора не должно быть меньше 3 и больше 100 символов")
     private String author;
 
-    public Book() {
-    }
-
-    public Book(int id, int age, String name, String author) {
-        this.id = id;
-        this.age = age;
-        this.name = name;
-        this.author = author;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 }

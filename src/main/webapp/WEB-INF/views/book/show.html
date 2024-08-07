@@ -12,25 +12,7 @@
 <p th:text="'Год выпуска книги: ' + ${book.getAge()}">VALUE </p>
 <p th:text="'Номер книги в каталоге: ' + ${book.getId()}">VALUE</p>
 <hr/>
-<div th:if="${owner}">
-    <span>Книга сейчас у: </span> <span th:text="${owner.getName()}">People Name</span>
-    <form th:method="PATCH" th:action="@{/book/{id}/realise(id=${book.getId()})}">
-        <input type="submit" value="Освободить книгу"/>
-    </form>
-    <hr/>
-</div>
-<div th:if="${people}">
-    <span>Эта книга свобондна, кому её назначить ?</span>
-    <form th:method="PATCH" th:action="@{/book/{id}/assign(id=${book.getId()})}">
-    <label for="people">Выберите человека</label>
-        <select th:object="${people}" th:field="*{id}" id="people">
-            <option th:each="people:${people}" th:value="${people.getId()}" th:text="${people.getName()}">
-            </option>
-        </select>
-    <input type="submit" value="Назначить книгу"/>
-    </form>
-</div>
-<hr/>
+
 <a th:href="@{/book/{id}/edit(id= ${book.getId()})}">Изменить книгу</a>
 
 <form th:method="DELETE" th:action="@{/book/{id}(id= ${book.getId()})}">

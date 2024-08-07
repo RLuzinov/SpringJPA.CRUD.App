@@ -18,12 +18,10 @@ import java.util.Optional;
 @RequestMapping("/book")
 public class BookController {
     private final BookDao bookDao;
-    private  final PeopleDao peopleDao;
 @Autowired
-    public BookController(BookDao bookDao, PeopleDao peopleDao) {
+    public BookController(BookDao bookDao) {
         this.bookDao = bookDao;
-    this.peopleDao = peopleDao;
-}
+    }
 
     @GetMapping()
     public String index(Model model){
@@ -36,11 +34,6 @@ public class BookController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model){
         model.addAttribute("book", bookDao.show(id));
-        Optional<People> bookOwner =  bookDao.getBookOwner(id);
-        if(bookOwner.isPresent())
-            model.addAttribute("owner", bookOwner.get());
-        else
-            model.addAttribute("people", peopleDao.index());
         return "book/show";
     }
     @GetMapping("/new")
@@ -76,16 +69,16 @@ public class BookController {
         bookDao.delete(id);
         return "redirect:/book";
     }
-    @PatchMapping("/{id}/realise")
-    public String realise(@PathVariable("id") int id){
-    bookDao.realise(id);
-    return "redirect:/book/" + id;
-    }
+//    @PatchMapping("/{id}/realise")
+//    public String realise(@PathVariable("id") int id){
+//    bookDao.realise(id);
+//    return "redirect:/book/" + id;
+//    }
 
-    @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @ModelAttribute("people") People selectedPeople){
-    bookDao.assign(id, selectedPeople);
-    return "redirect:/book/" + id;
-    }
+//    @PatchMapping("/{id}/assign")
+//    public String assign(@PathVariable("id") int id, @ModelAttribute("people") People selectedPeople){
+//    bookDao.assign(id, selectedPeople);
+//    return "redirect:/book/" + id;
+//    }
 
 }

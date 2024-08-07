@@ -10,15 +10,9 @@
     <label for="name" th:action="@{/people}" th:object="${people}">Введите ФИО читателя:</label>
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color: brown" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка имени: </div>
-    <br/>
-    <label for="age" th:action="book" th:object="${people}">Введите возраст читателя: </label>
+    <label for="age" th:action="@{/people}" th:object="${people}">Введите возраст читателя: </label>
     <input type="text" th:field="*{age}" id="age"/>
     <div style="color: brown" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Ошибка возраста:</div>
-    <br/>
-    <label for="id_book">Введите код  книги: </label>
-    <input type="text" th:field="*{id_book}" id="id_book"/>
-    <div style="color: brown" th:if="${#fields.hasErrors('id_book')}" th:errors="*{id_book}">Ошибка кода книги:</div>
-    <br/>
     <hr/>
     <input type="submit" value="Создать!"/>
 </form>

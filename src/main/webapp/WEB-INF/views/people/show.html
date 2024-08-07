@@ -8,22 +8,8 @@
 <hr/>
 <p th:text="'Чиатель: ' + ${people.getName()}"> VALUE </p>
 <p th:text="'Возраст читателя: ' + ${people.getAge()}">VALUE</p>
-<p th:text="'Номер читателя: ' + ${people.getId()}">VALUE</p>
 <hr/>
-<div th:if="${book.isEmpty()}">
-    <p>Человек пока не взял ни одной книги</p>
-    <hr/>
-</div>
 
-<div th:if="${!book.isEmpty()}">
-    <hr/>
-    <p>Книги:</p>
-    <br/>
-    <table th:each="book:${book}">
-        <tr th:text="${book.name + ', ' + book.author + ', ' + book.age }">book</tr>
-    </table>
-    <hr/>
-</div>
 <a th:href="@{/people/{id}/edit(id= ${people.getId()})}">Изменить данные читателя</a>
 </body>
 <form th:method="DELETE" th:action="@{/people/{id}(id= ${people.getId()})}">

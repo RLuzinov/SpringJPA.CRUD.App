@@ -1,43 +1,57 @@
 package project.learn.rluzinov.dao;
 
+import lombok.AllArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import project.learn.rluzinov.models.Book;
 import project.learn.rluzinov.models.People;
 
 import java.util.List;
 import java.util.Optional;
+@AllArgsConstructor
 
 
 @Component
 public class PeopleDao {
-    private final JdbcTemplate jdbcTemplate;
-
-    public PeopleDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    private SessionFactory sessionFactory;
+    @Transactional
     public List<People> index(){
-        return jdbcTemplate.query("SELECT  * FROM People", new BeanPropertyRowMapper<>(People.class)) ;
+        Session session = sessionFactory.getCurrentSession();
+
+        List<People> people = session.createQuery("select p from People p", People.class)
+                .getResultList();
+        return people;
     }
+    @Transactional
     public People show(int id){
-        return jdbcTemplate.query("SELECT * FROM  People WHERE id =?", new Object[]{id}, new BeanPropertyRowMapper<>(People.class))
-        .stream().findAny().orElse(null);
+        Session session = sessionFactory.getCurrentSession();
+        People people = session.get(People.class, id);
+        return people;
     }
+    @Transactional
     public void save(People people){
-        jdbcTemplate.update("INSERT INTO People(name, age, id_book) VALUES (?,?,?)",
-                people.getName(), people.getAge(), people.getId_book() );
+        Session session = sessionFactory.getCurrentSession();
+        session.save(people);
+
     }
+    @Transactional
     public void update(int id, People updatePeople){
-        jdbcTemplate.update("UPDATE People SET name=?, age=?, id_book=? WHERE id = ?",
-                updatePeople.getName(), updatePeople.getAge(), updatePeople.getId_book(), id);
+        Session session = sessionFactory.getCurrentSession();
+        People people = session.get(People.class, id);
+        people = updatePeople;
+        session.save(people);
     }
+    @Transactional
     public  void delete(int id){
-        jdbcTemplate.update("DELETE FROM People WHERE id=?", id);
+        Session session = sessionFactory.getCurrentSession();
+        People people = session.get(People.class, id);
+        session.delete(people);
     }
 
-    public List<Book> getBookByPeople(int id)
-        {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
-    }
+
 }
