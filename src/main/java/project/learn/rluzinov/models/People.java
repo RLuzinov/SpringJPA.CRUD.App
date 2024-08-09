@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.learn.rluzinov.dao.BookDao;
 
+import java.util.List;
+
 @Entity
 @Table(name = "People")
 @Data
@@ -29,4 +31,6 @@ public class People {
     @Min(value = 16, message = "Возраст посещения библиотеки - не менее 16 лет")
     @Max(value = 100, message = "Возраст не может привышать 100 лет")
     private int age;
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
 }

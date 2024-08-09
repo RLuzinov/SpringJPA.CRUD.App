@@ -1,31 +1,36 @@
 package project.learn.rluzinov.controllers;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.learn.rluzinov.dao.PeopleDao;
+import project.learn.rluzinov.models.Book;
 import project.learn.rluzinov.models.People;
+import project.learn.rluzinov.srvices.BookService;
+import project.learn.rluzinov.srvices.PeopleService;
+
+import java.util.Optional;
+
+@AllArgsConstructor
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final PeopleDao peopleDao;
-@Autowired
-    public PeopleController(PeopleDao peopleDao) {
-        this.peopleDao = peopleDao;
-    }
+    private final PeopleService peopleService;
+    private final BookService bookService;
     @GetMapping
     public String index(Model model){
-    model.addAttribute("people", peopleDao.index());
+    model.addAttribute("people", peopleService.findAll());
         return "people/index";
     }
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
-    model.addAttribute("people", peopleDao.show(id));
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("owner") Book book){
+    model.addAttribute("people", peopleService.findById(id));
         return "people/show";
     }
     @GetMapping("/new")
@@ -37,12 +42,12 @@ public class PeopleController {
                                 BindingResult bindingResult){
     if(bindingResult.hasErrors())
         return "people/new";
-    peopleDao.save(people);
+    peopleService.save(people);
     return "redirect:/people";
     }
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id" )int id, Model model ){
-    model.addAttribute("people", peopleDao.show(id));
+    public String edit(@PathVariable("id" )int id, Model model, @ModelAttribute("book") Book book ){
+    model.addAttribute("people", peopleService.findById(id));
     return "people/edit";
     }
     @PatchMapping("/{id}")
@@ -50,13 +55,16 @@ public class PeopleController {
                          BindingResult bindingResult){
     if(bindingResult.hasErrors())
         return "people/edit";
-    peopleDao.update(id, people);
+    peopleService.update(people,id);
     return "redirect:/people";
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id){
-    peopleDao.delete(id);
+    peopleService.delete(id);
     return "redirect:/people";
     }
+
+
+
 
 }

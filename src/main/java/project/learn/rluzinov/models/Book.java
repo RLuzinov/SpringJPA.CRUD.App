@@ -30,4 +30,7 @@ public class Book {
     @Size(min = 3,max = 100,message = "Имя автора не должно быть меньше 3 и больше 100 символов")
     private String author;
 
+    @ManyToOne
+    @JoinColumn(name="people_id", referencedColumnName = "id")
+    private People owner;
 }
