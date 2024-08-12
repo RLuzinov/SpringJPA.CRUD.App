@@ -10,7 +10,7 @@
     <label for="name" th:action="@{/people}" th:object="${people}">Введите ФИО читателя:</label>
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color: brown" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка имени: </div>
-    <label for="age" th:action="@{/people}" th:object="${people}">Введите возраст читателя: </label>
+    <label for="age" th:action="@{/person}" th:object="${people}">Введите возраст читателя: </label>
     <input type="text" th:field="*{age}" id="age"/>
     <div style="color: brown" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Ошибка возраста:</div>
     <hr/>

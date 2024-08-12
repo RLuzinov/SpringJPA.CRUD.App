@@ -2,18 +2,14 @@ package project.learn.rluzinov.controllers;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import project.learn.rluzinov.dao.PeopleDao;
 import project.learn.rluzinov.models.Book;
-import project.learn.rluzinov.models.People;
+import project.learn.rluzinov.models.Person;
 import project.learn.rluzinov.srvices.BookService;
 import project.learn.rluzinov.srvices.PeopleService;
-
-import java.util.Optional;
 
 @AllArgsConstructor
 
@@ -31,18 +27,19 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("owner") Book book){
     model.addAttribute("people", peopleService.findById(id));
+    model.addAttribute("books", peopleService.getBookByPersonId(id));
         return "people/show";
     }
     @GetMapping("/new")
-    public String newPeople(@ModelAttribute("people") People people){
+    public String newPeople(@ModelAttribute("people") Person person){
     return "people/new";
     }
     @PostMapping()
-    public  String createPeople(@ModelAttribute("people") @Valid People people,
+    public  String createPeople(@ModelAttribute("people") @Valid Person person,
                                 BindingResult bindingResult){
     if(bindingResult.hasErrors())
         return "people/new";
-    peopleService.save(people);
+    peopleService.save(person);
     return "redirect:/people";
     }
     @GetMapping("/{id}/edit")
@@ -51,11 +48,11 @@ public class PeopleController {
     return "people/edit";
     }
     @PatchMapping("/{id}")
-    public String update(@PathVariable("id") int id, @ModelAttribute("people") @Valid People people,
+    public String update(@PathVariable("id") int id, @ModelAttribute("people") @Valid Person person,
                          BindingResult bindingResult){
     if(bindingResult.hasErrors())
         return "people/edit";
-    peopleService.update(people,id);
+    peopleService.update(person,id);
     return "redirect:/people";
     }
     @DeleteMapping("/{id}")

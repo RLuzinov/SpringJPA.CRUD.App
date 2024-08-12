@@ -1,15 +1,12 @@
 package project.learn.rluzinov.dao;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import project.learn.rluzinov.models.Book;
-import project.learn.rluzinov.models.People;
+import project.learn.rluzinov.models.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +50,7 @@ public class BookDao {
         session.delete(book);
     }
 
-    public Optional<People> getBookOwner(int id){
+    public Optional<Person> getBookOwner(int id){
         return  null;
     }
 }

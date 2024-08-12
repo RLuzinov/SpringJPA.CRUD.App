@@ -17,9 +17,8 @@
     <label for="age">Введите год выпуска книги: </label>
     <input type="text" th:field="*{age}" id="age"/>
     <div style="color: brown" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Ошибка года книги:</div>
-    <br/>
     <hr/>
-    <input type="submit" value="Обновить!"/>
+    <input type="submit" value="Редактиировать!"/>
 </form>
 
 </body>

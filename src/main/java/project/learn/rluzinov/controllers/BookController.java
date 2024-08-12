@@ -3,36 +3,46 @@ package project.learn.rluzinov.controllers;
 import jakarta.validation.Valid;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import project.learn.rluzinov.dao.BookDao;
-import project.learn.rluzinov.dao.PeopleDao;
 import project.learn.rluzinov.models.Book;
-import project.learn.rluzinov.models.People;
+import project.learn.rluzinov.models.Person;
 import project.learn.rluzinov.srvices.BookService;
+import project.learn.rluzinov.srvices.PeopleService;
 
-import java.util.Optional;
 @AllArgsConstructor
 @Controller
 @RequestMapping("/book")
 public class BookController {
     private final BookService bookService;
+    private final PeopleService peopleService;
 
 
     @GetMapping()
-    public String index(Model model){
-    model.addAttribute("book", bookService.findAll());
+    public String index(Model model, @RequestParam(value = "page", required = false) Integer page,
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                        @RequestParam(value = "sort_by_years", required = false) boolean sortByYear){
+        if (page == null || booksPerPage == null)
+            model.addAttribute("book", bookService.findAll(sortByYear)); // выдача всех книг
+        else
+            model.addAttribute("book", bookService.findWithPagination(page, booksPerPage, sortByYear));
 
-
-    return "book/index";
+        return "book/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookService.findById(id));
+
+        Person bookOwner = bookService.getBookOwner(id);
+
+        if (bookOwner != null)
+            model.addAttribute("owner", bookOwner);
+        else
+            model.addAttribute("people", peopleService.findAll());
+
         return "book/show";
     }
     @GetMapping("/new")
@@ -68,16 +78,27 @@ public class BookController {
         bookService.delete(id);
         return "redirect:/book";
     }
-//    @PatchMapping("/{id}/realise")
-//    public String realise(@PathVariable("id") int id){
-//    bookDao.realise(id);
-//    return "redirect:/book/" + id;
-//    }
+    @PatchMapping("/{id}/realise")
+    public String release(@PathVariable("id") int id){
+    bookService.release(id);
+    return "redirect:/book/" + id;
+    }
 
-//    @PatchMapping("/{id}/assign")
-//    public String assign(@PathVariable("id") int id, @ModelAttribute("people") People selectedPeople){
-//    bookDao.assign(id, selectedPeople);
-//    return "redirect:/book/" + id;
-//    }
+    @PatchMapping("/{id}/assign")
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson){
+    bookService.assign(id, selectedPerson);
+    return "redirect:/book/" + id;
+    }
+
+    @GetMapping("/search")
+    public String searchPage(){
+        return "book/search";
+    }
+
+    @PostMapping("/search")
+    public String makeSearch(Model model, @RequestParam("query") String query ){
+        model.addAttribute("book", bookService.searchByName(query));
+        return "book/search";
+    }
 
 }

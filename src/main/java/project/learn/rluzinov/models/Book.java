@@ -8,6 +8,9 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 @Entity
 @Table(name = "Book")
 @Data
@@ -32,5 +35,12 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name="people_id", referencedColumnName = "id")
-    private People owner;
+    private Person owner;
+
+    @Column(name = "bookAp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date bookAp;
+
+    @Transient
+    private boolean expired;
 }

@@ -3,16 +3,12 @@ package project.learn.rluzinov.dao;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import project.learn.rluzinov.models.Book;
-import project.learn.rluzinov.models.People;
+import project.learn.rluzinov.models.Person;
 
 import java.util.List;
-import java.util.Optional;
+
 @AllArgsConstructor
 
 
@@ -20,37 +16,37 @@ import java.util.Optional;
 public class PeopleDao {
     private SessionFactory sessionFactory;
     @Transactional
-    public List<People> index(){
+    public List<Person> index(){
         Session session = sessionFactory.getCurrentSession();
 
-        List<People> people = session.createQuery("select p from People p", People.class)
+        List<Person> people = session.createQuery("select p from Person p", Person.class)
                 .getResultList();
         return people;
     }
     @Transactional
-    public People show(int id){
+    public Person show(int id){
         Session session = sessionFactory.getCurrentSession();
-        People people = session.get(People.class, id);
-        return people;
+        Person person = session.get(Person.class, id);
+        return person;
     }
     @Transactional
-    public void save(People people){
+    public void save(Person person){
         Session session = sessionFactory.getCurrentSession();
-        session.save(people);
+        session.save(person);
 
     }
     @Transactional
-    public void update(int id, People updatePeople){
+    public void update(int id, Person updatePerson){
         Session session = sessionFactory.getCurrentSession();
-        People people = session.get(People.class, id);
-        people = updatePeople;
-        session.save(people);
+        Person person = session.get(Person.class, id);
+        person = updatePerson;
+        session.save(person);
     }
     @Transactional
     public  void delete(int id){
         Session session = sessionFactory.getCurrentSession();
-        People people = session.get(People.class, id);
-        session.delete(people);
+        Person person = session.get(Person.class, id);
+        session.delete(person);
     }
 
 

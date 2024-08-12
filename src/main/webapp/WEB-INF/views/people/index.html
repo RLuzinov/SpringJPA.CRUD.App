@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
-<body align="center">
-<header><h3>Страница читателей</h3></header>
-<hr/>
-<div th:each="people:${people}">
-    <a th:href="@{people/{id}(id=${people.getId()})}"
-       th:text="${people.getName()}">VALUE</a>
+<body>
+
+<div th:each="person : ${people}">
+    <a th:href="@{/people/{id}(id=${person.getId()})}"
+       th:text="${person.getName() + ', ' + person.getAge()}">user</a>
 </div>
+
+<br/>
 <hr/>
-<a href="people/new">Добавить новго читателя</a>
+
+<a href="/people/new">Добавить человека</a>
 
 </body>
 </html>
